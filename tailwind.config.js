@@ -5,18 +5,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#0F172A', // Deep Slate Blue
-        secondary: '#1E293B', // Slate Gray
+        primary: '#0F0413', // Deep night-purple
+        secondary: '#1A0B22', // Dark violet
         light: {
-          100: '#F8FAFC', // Crisp white
-          200: '#CBD5E1', // Cool gray
-          300: '#94A3B8', // Muted slate
+          100: '#F3E5F5', // Clean off-white purple
+          200: '#D1C4E9', // Lavender grey
+          300: '#9575CD', // Muted purple
         },
         dark: {
-          100: '#334155', // Card borders or backgrounds
-          200: '#020617', // Deepest black-blue
+          100: '#2D1B36', // Lighter purple-black for cards
+          200: '#14081A', // Shadow color
         },
-        accent: '#F59E0B', // Warm Amber/Gold
+        accent: '#C084FC', // Bright Electric Purple
       },
     },
   },
