@@ -16,15 +16,12 @@ export const fetchMovies = async ({ query }: { query: string }) => {
     method: 'GET',
     headers: TMDB_CONFIG.headers,
   });
-
+  // , response.statusText
   if (!response.ok) {
-    throw new Error('Failed to fetch movies!', response.statusText);
+    throw new Error('Failed to fetch movies!');
   }
 
   const data = await response.json();
 
   return data.results;
 };
-
-// const url =
-//   'https://api.themoviedb.org/3/discover/movie?include_adult=true&include_video=false&language=en-US&page=1&sort_by=popularity.desc';

@@ -1,11 +1,27 @@
+import MovieCard from '@/components/MovieCard';
 import Searchbar from '@/components/Searchbar';
 import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
+import { fetchMovies } from '@/services/api';
+import useFetch from '@/services/useFetch';
 import { useRouter } from 'expo-router';
-import { Image, ScrollView, View } from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 
 export default function Index() {
   const router = useRouter();
+
+  const {
+    data: movies,
+    loading: moviesLoading,
+    error: moviesError,
+  } = useFetch(() => fetchMovies({ query: '' }));
 
   return (
     // primary
@@ -24,13 +40,45 @@ export default function Index() {
         {/* logo */}
         <Image source={icons.logo} className='w-12 h-10 mt-20 mb-5 mx-auto' />
 
-        {/* search bar */}
-        <View className='flex-1 mt-5'>
-          <Searchbar
-            onPress={() => router.push('/search')}
-            placeholder='Search for a movie'
+        {moviesLoading ? (
+          <ActivityIndicator
+            size='large'
+            color='#0000FF'
+            className='mt-10 self-center'
           />
-        </View>
+        ) : moviesError ? (
+          <Text>Error: {moviesError?.message}</Text>
+        ) : (
+          <View className='flex-1 mt-5'>
+            {/* searchbar */}
+            <Searchbar
+              onPress={() => router.push('/search')}
+              placeholder='Search for a movie'
+            />
+
+            <>
+              <Text className='text-lg text-white font-bold mt-5 mb-3'>
+                Latest Movies
+              </Text>
+
+              {/* movie list */}
+              <FlatList
+                data={movies}
+                renderItem={({ item }) => <MovieCard {...item} />}
+                keyExtractor={(item) => item.id.toString()}
+                numColumns={3}
+                columnWrapperStyle={{
+                  justifyContent: 'flex-start',
+                  gap: 20,
+                  paddingRight: 5,
+                  marginBottom: 10,
+                }}
+                className='mt-2 pb-32'
+                scrollEnabled={false}
+              />
+            </>
+          </View>
+        )}
       </ScrollView>
     </View>
   );
